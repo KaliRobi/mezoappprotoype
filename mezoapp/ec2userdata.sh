@@ -1,13 +1,15 @@
 #!/bin/bash
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install -y python3.10 python3-pip git
 sudo mkdir -p /var/www/mezoappproto
 cd /var/www/mezoappproto
-git clone https://github.com/KaliRobi/mezoappsingle.git
-python3.10 -m venv venv
+sudo git clone https://github.com/KaliRobi/mezoappsingle.git
+sudo apt install -y python3.12-venv
+sudo python3.12 -m venv venv
 source venv/bin/activate
-pip install -r mezoappsingle/requirements.txt
+sudo chown -R ubuntu:ubuntu /var/www/mezoappproto/venv
+sudo pip install -r mezoappsingle/requirements.txt
 cd mezoappsingle/mezoapp/
-python manage.py migrate
-python manage.py runserver 0.0.0.0:8000
+sudo ufw allow 8000
+python3.12 manage.py migrate
+python3.12 manage.py runserver 0.0.0.0:8000
